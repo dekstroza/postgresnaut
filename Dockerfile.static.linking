@@ -1,0 +1,22 @@
+FROM dekstroza/graalvm-ce:20.2.0-r11-libmuslc as graalvm
+ARG JAR_FILE
+ARG BUILD_DIR
+ADD ${BUILD_DIR}/${JAR_FILE} /home/app/postgresnaut.jar
+WORKDIR /home/app
+
+RUN native-image --no-server \
+    --static \
+    --libc=musl \
+    --enable-http \
+    --enable-https \
+    --no-fallback \
+    --enable-all-security-services \
+    -H:+StackTrace \
+    -H:+JNI \
+    -H:-SpawnIsolates \
+    --class-path /home/app/postgresnaut.jar
+
+FROM scratch
+EXPOSE 8080
+COPY --from=graalvm /home/app/postgresnaut .
+ENTRYPOINT ["./postgresnaut"]

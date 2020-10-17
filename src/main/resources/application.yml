@@ -1,0 +1,65 @@
+micronaut:
+  application:
+    name: postgresnaut
+  metrics:
+    enabled: true
+    binders:
+      jvm:
+        enabled: false
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+    versioning:
+      enabled: true
+      default-version: 1
+      header:
+        enabled: true
+        names:
+          - 'X-API-VERSION'
+          - 'Accept-Version'
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/postgresnaut
+    driverClassName: org.postgresql.Driver
+    username: postgresnaut_service_user
+    password: '321postgresnaut123'
+jpa:
+  default:
+    properties:
+      hibernate:
+        show_sql: true
+flyway:
+  datasources:
+    default:
+    enabled: true
+jackson:
+  bean-introspection-module: true
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 1
+    reporter:
+      flushInterval: 2000
+      maxQueueSize: 200
+
+endpoints:
+  prometheus:
+    sensitive: false
+  metrics:
+    enabled: true
+    sensitive: false
+    export:
+      prometheus:
+        enabled: true
+        step: PT1M
+        descriptions: true
+  info:
+    enabled: true
+    sensitive: false
+  health:
+    sensitive: false
+    enabled: true
+    details-visible: ANONYMOUS

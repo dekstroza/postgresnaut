@@ -1,0 +1,16 @@
+FROM oracle/graalvm-ce:20.2.0-java11 as graalvm
+ARG JAR_FILE
+ARG BUILD_DIR
+ADD ${BUILD_DIR}/${JAR_FILE} /home/app/postgresnaut.jar
+WORKDIR /home/app
+RUN gu install native-image && \
+    native-image --no-server \
+    --class-path /home/app/postgresnaut.jar
+
+FROM frolvlad/alpine-glibc
+EXPOSE 8080
+COPY --from=graalvm /home/app/postgresnaut .
+COPY --from=graalvm opt/graalvm-ce-java11-20.2.0/lib/libsunec.so .
+RUN apk add libstdc++
+ENTRYPOINT ["./postgresnaut"]
+

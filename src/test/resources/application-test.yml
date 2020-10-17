@@ -1,0 +1,10 @@
+datasources:
+  default:
+    url: jdbc:tc:postgresql:12:///postgres
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+flyway:
+  datasources:
+    default:
+    enabled: true
+jackson:
+  bean-introspection-module: true
