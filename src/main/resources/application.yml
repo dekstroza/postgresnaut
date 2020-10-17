@@ -11,6 +11,16 @@ micronaut:
       swagger:
         paths: classpath:META-INF/swagger
         mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+      redoc:
+        paths: classpath:META-INF/swagger/views/redoc
+        mapping: /redoc/**
+      rapidoc:
+        paths: classpath:META-INF/swagger/views/rapidoc
+        mapping: /rapidoc/**
+
     versioning:
       enabled: true
       default-version: 1
@@ -19,23 +29,22 @@ micronaut:
         names:
           - 'X-API-VERSION'
           - 'Accept-Version'
+
 datasources:
   default:
     url: jdbc:postgresql://localhost:5432/postgresnaut
     driverClassName: org.postgresql.Driver
     username: postgresnaut_service_user
     password: '321postgresnaut123'
-jpa:
-  default:
-    properties:
-      hibernate:
-        show_sql: true
+
 flyway:
   datasources:
     default:
     enabled: true
+
 jackson:
   bean-introspection-module: true
+
 tracing:
   jaeger:
     enabled: true

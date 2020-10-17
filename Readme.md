@@ -7,7 +7,7 @@
 Micronaut and Graal example service using PostgreSQL as the datastore compiled into statically or dynamically linked native image.
 This is a slightly more comprehensive hello world type of a microservice built with micronaut, using postgresql as its data store. It can be compiled as tradidtional java application and packaged into docker container as runnable jar, or as graalvm compiled native binary (both statically and dynamically linked) and packaged into docker container.
 
-Features demonstrated are: compilation to native image (with static linking) jpa/hibernate, versioned api, jaeger based tracing, prometheus metric and open-api. Helm chart provided will deploy built docker image along with mongodb, prometheus and all-in-one jaeger demonstrating all of the bespoke features. There is also a demo grafana dashboard provided with the helm chart, which will be installed into grafana upon chart deployment.
+Features demonstrated are: compilation to native image (with static linking) micronaut-data jdbc repository, versioned api, jaeger based tracing, prometheus metric and open-api. Helm chart provided will deploy built docker image along with mongodb, prometheus and all-in-one jaeger demonstrating all of the bespoke features. There is also a demo grafana dashboard provided with the helm chart, which will be installed into grafana upon chart deployment.
 
 ## Requirements
 
@@ -69,7 +69,7 @@ Testing the service from command line using curl:
 
 ```bash
 # Save alarm to the database
-curl -X POST localhost:7777/postgresnaut/alarms -d '{"id": 1,"name": "Second Alarm", "severity": "MEDIUM"}' -H 'Content-Type:application/json'
+curl -X POST localhost:7777/postgresnaut/alarms -d '{"name": "Second Alarm", "severity": "MEDIUM"}' -H 'Content-Type:application/json'
 # Get all alarms
 curl -v localhost:7777/postgresnaut/alarms
 # Health endpoint
@@ -98,9 +98,9 @@ Command to test the latency (get all alarms, or similar for save alarm url):
 # For get all alarms
 curl -w "@curl-format.txt" -o /dev/null -s "http://localhost:7777/postgresnaut/alarms"
 # For save alarm
-curl -w "@curl-format.txt" -o /dev/null -s -X POST localhost:7777/postgresnaut/alarms -d '{"id": 1,"name": "Second Alarm", "severity": "MEDIUM"}' -H 'Content-Type:application/json'
+curl -w "@curl-format.txt" -o /dev/null -s -X POST localhost:7777/postgresnaut/alarms -d '{"name": "Second Alarm", "severity": "MEDIUM"}' -H 'Content-Type:application/json'
 # Save several alarms
-for i in {10..20}; do curl -X POST localhost:7777/postgresnaut/alarms -d "{\"id\": $i,\"name\": \"Second Alarm\", \"severity\": \"MEDIUM\"}" -H 'Content-Type:application/json'; done
+for i in {10..20}; do curl -X POST localhost:7777/postgresnaut/alarms -d "{\"name\": \"Second Alarm\", \"severity\": \"MEDIUM\"}" -H 'Content-Type:application/json'; done
 ```
 Grafana is available on http://localhost:8769/ username is admin and the password can be obtained following instructions printed after deploying helm chart.
 ```
@@ -113,4 +113,17 @@ Jaeger UI is on: localhost:80 and shows some useless (in this example) spans, pr
 Openapi definition can be accessed at: http://localhost:7777/swagger/micronaut-service-1.0.0.yml
 ```
 
+```
+Swagger ui is available at: http://localhost:7777/swagger-ui
+```
+
+```
+Redoc is available at:http://localhost:7777/redoc
+```
+
+```
+Rapidoc is available at: http://localhost:7777/rapidoc
+```
+
+In order to reduce memory consumption of graalvm native images, few netty related arguments are passed to the application binary on startup (see netty documentation for more info)
 Happy hacking...

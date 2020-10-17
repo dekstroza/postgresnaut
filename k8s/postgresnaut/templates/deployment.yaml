@@ -45,6 +45,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["-Dio.netty.allocator.maxOrder=7","-Dio.netty.allocator.numHeapArenas=2","-Dio.netty.allocator.numDirectArenas=2","-Dio.netty.recycler.maxCapacityPerThread=0"]
           env:
             - name: DATASOURCES_DEFAULT_URL
               value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.postgresqlDatabase }}

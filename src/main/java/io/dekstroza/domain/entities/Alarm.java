@@ -1,35 +1,25 @@
 package io.dekstroza.domain.entities;
 
-import io.micronaut.core.annotation.Introspected;
+import io.micronaut.core.annotation.Creator;
+import io.micronaut.data.annotation.GeneratedValue;
+import io.micronaut.data.annotation.Id;
+import io.micronaut.data.annotation.MappedEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-@Schema(name = "Alarm", description = "Alarm representation")
-@Introspected
-@Entity
-@Table(name = "alarms", schema = "public")
+@Schema(name="Alarm", description="Alarm description")
+@MappedEntity("alarms")
 public class Alarm {
 
     @Id
-    @SequenceGenerator(name = "alarms_id_seq",
-            sequenceName = "alarms_id_seq",
-            allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "alarms_id_seq")
-    @Column(name = "id", updatable = false)
-    private  Integer id;
+    @GeneratedValue(value = GeneratedValue.Type.SEQUENCE, ref = "alarms_id_seq")
+    private Integer id;
 
-    @Column(name = "name", nullable = false, length = 50)
-    private  String name;
+    private final String name;
+    private final String severity;
 
-    @Column(name = "severity", nullable = false, length = 20)
-    private  String severity;
-
-    public Alarm() {
-    }
-
+    @Creator
     public Alarm(String name, String severity) {
         this.name = name;
         this.severity = severity;
@@ -39,22 +29,17 @@ public class Alarm {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSeverity(String severity) {
-        this.severity = severity;
-    }
-
+    @Schema(description="Alarm id, not required when creating alarms", maximum="50", nullable = false, type = "Integer")
     public Integer getId() {
         return id;
     }
 
+    @Schema(description="Alarm name", maximum="50", nullable = false)
     public String getName() {
         return name;
     }
 
+    @Schema(description="Alarm severity", maximum="20", nullable = false)
     public String getSeverity() {
         return severity;
     }
