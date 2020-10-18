@@ -39,6 +39,28 @@ Once the helper image is build (or you decided you dont want to build it and wna
 ./mvwn clean install -Dstatic # to build statically linked image
 ```
 
+## Building with maven
+
+- Runnable jar build
+```
+## Skip all graalvm and docker stuff and just build runnable jar
+./mvnw clean install -Ddockerfile.skip
+```
+- Build docker image with runnable jar
+```
+## Skip all graalvm and docker stuff and just build runnable jar
+./mvnw clean install
+```
+- Build docker image with dynamically linked native image
+```
+## Build dynamically linked native image
+./mvnw clean install -Ddynamic
+```
+- Build docker image with statically linked native image
+```
+./mvnw clean install -Dstatic
+```
+
 ## Trying out the service
 
 Service can be deployed using provided helm charts in k8s directory with
