@@ -45,16 +45,19 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args: ["-Dio.netty.allocator.maxOrder=7","-Dio.netty.allocator.numHeapArenas=2","-Dio.netty.allocator.numDirectArenas=2","-Dio.netty.recycler.maxCapacityPerThread=0"]
           env:
             - name: DATASOURCES_DEFAULT_URL
               value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.postgresqlDatabase }}
-            - name: DATASOURCES_DEFAULT_DRIVERCLASSNAME
-              value: org.postgresql.Driver
-            - name: DATASOURCES_DEFAULT_USERNAME
-              value: {{ .Values.postgresql.postgresqlUsername }}
-            - name: DATASOURCES_DEFAULT_PASSWORD
-              value: {{ .Values.postgresql.postgresqlPassword }}
+            - name: POSTGRESNAUT_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgresnaut
+                  key: username
+            - name: POSTGRESNAUT_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresnaut
+                  key: password
             - name: JAEGER_AGENT_HOST
               value: {{ .Values.jaeger.agent.host }}
             - name: JAEGER_AGENT_PORT

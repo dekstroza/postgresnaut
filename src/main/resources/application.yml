@@ -20,7 +20,6 @@ micronaut:
       rapidoc:
         paths: classpath:META-INF/swagger/views/rapidoc
         mapping: /rapidoc/**
-
     versioning:
       enabled: true
       default-version: 1
@@ -37,10 +36,10 @@ flyway:
 
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/postgresnaut
+    url: jdbc:postgresql://${postgresnaut.db.host:localhost}:${postgresnaut.db.port:5432}/${postgresnaut.db.name:postgresnaut}
     driverClassName: org.postgresql.Driver
-    username: dekstroza
-    password: dekstroza
+    username: ${postgresnaut.db.username:dekstroza}
+    password: ${postgresnaut.db.password:dekstroza}
 
 jackson:
   bean-introspection-module: true
@@ -55,6 +54,9 @@ tracing:
       maxQueueSize: 200
 
 endpoints:
+  flyway:
+    enabled: true
+    sensitive: false
   prometheus:
     sensitive: false
   metrics:

@@ -14,6 +14,7 @@
 
     <properties>
         <micronaut.version>2.1.1</micronaut.version>
+        <micronaut.dava.version>2.0.1</micronaut.dava.version>
         <graalvm.version>20.2.0</graalvm.version>
         <junit.version>5.6.2</junit.version>
         <zipkin.brave.version>5.7.0</zipkin.brave.version>
@@ -172,11 +173,6 @@
             <artifactId>brave-instrumentation-http</artifactId>
             <version>${zipkin.brave.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.micronaut.kubernetes</groupId>-->
-<!--            <artifactId>micronaut-kubernetes-discovery-client</artifactId>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.graalvm.sdk</groupId>
             <artifactId>graal-sdk</artifactId>
@@ -308,7 +304,7 @@
                         <path>
                             <groupId>io.micronaut.data</groupId>
                             <artifactId>micronaut-data-processor</artifactId>
-                            <version>2.0.1</version>
+                            <version>${micronaut.dava.version}</version>
                         </path>
                         <path>
                             <groupId>io.micronaut</groupId>
@@ -347,7 +343,7 @@
                                 <path>
                                     <groupId>io.micronaut.data</groupId>
                                     <artifactId>micronaut-data-processor</artifactId>
-                                    <version>2.0.1</version>
+                                    <version>${micronaut.dava.version}</version>
                                 </path>
                                 <path>
                                     <groupId>io.micronaut</groupId>

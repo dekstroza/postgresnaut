@@ -76,6 +76,9 @@ jaeger:
 postgresql:
   persistence:
     enabled: false
+  extraEnv:
+    - name: PGGSSENCMODE
+      value: disable
   postgresqlUsername: dekstroza
   postgresqlDatabase: postgresnaut
   postgresqlPassword: 321postgresnaut123

@@ -5,6 +5,6 @@ datasources:
 flyway:
   datasources:
     default:
-    enabled: true
+      enabled: true
 jackson:
   bean-introspection-module: true
