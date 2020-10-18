@@ -115,6 +115,8 @@ curl -w "@curl-format.txt" -o /dev/null -s -X POST localhost:7777/postgresnaut/a
 # Save several alarms
 for i in {10..20}; do curl -X POST localhost:7777/postgresnaut/alarms -d "{\"id\": $i,\"name\": \"Second Alarm\", \"severity\": \"MEDIUM\"}" -H 'Content-Type:application/json'; done
 ```
+
+## Exposed endpoints
 ```
 Grafana is available on http://localhost:8769/ username is admin and the password can be obtained following instructions printed after deploying helm chart.
 ```
