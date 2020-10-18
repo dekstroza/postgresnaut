@@ -131,5 +131,7 @@ Rapidoc is available at: http://localhost:7777/rapidoc
 ```
 
 In order to reduce memory consumption of graalvm native images, few netty related arguments are passed to the application binary on startup (see netty documentation for more info)
+
+
 Happy hacking...
 
