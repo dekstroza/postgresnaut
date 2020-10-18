@@ -102,15 +102,34 @@ curl -w "@curl-format.txt" -o /dev/null -s -X POST localhost:7777/postgresnaut/a
 # Save several alarms
 for i in {10..20}; do curl -X POST localhost:7777/postgresnaut/alarms -d "{\"id\": $i,\"name\": \"Second Alarm\", \"severity\": \"MEDIUM\"}" -H 'Content-Type:application/json'; done
 ```
+```
 Grafana is available on http://localhost:8769/ username is admin and the password can be obtained following instructions printed after deploying helm chart.
+```
+
 ```
 Demo dashboard is provided with the Grafana, providing some basic telemetry on cpu, mem and api calls.
 ```
+
 ```
 Jaeger UI is on: localhost:80 and shows some useless (in this example) spans, provided more as illustration how to do it.
 ```
+
 ```
 Openapi definition can be accessed at: http://localhost:7777/swagger/micronaut-service-1.0.0.yml
 ```
 
+```
+Swagger ui is available at: http://localhost:7777/swagger-ui
+```
+
+```
+Redoc is available at:http://localhost:7777/redoc
+```
+
+```
+Rapidoc is available at: http://localhost:7777/rapidoc
+```
+
+In order to reduce memory consumption of graalvm native images, few netty related arguments are passed to the application binary on startup (see netty documentation for more info)
 Happy hacking...
+
