@@ -40,6 +40,7 @@ Easiest way to run this demo is to install sdkman, and using it install java (gr
   ./mvnw clean install -Ddynamic
   ```
 - Build docker image with statically linked native image
+  
   In order to build statically linked native images, we need extra step first: we need to add support for libmuslc to the oracle's builder image. 
   To do this run:
   ```
