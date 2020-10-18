@@ -7,7 +7,7 @@
 Micronaut and Graal example service using PostgreSQL as the datastore compiled into statically or dynamically linked native image.
 This is a slightly more comprehensive hello world type of a microservice built with micronaut, using postgresql as its data store. It can be compiled as tradidtional java application and packaged into docker container as runnable jar, or as graalvm compiled native binary (both statically and dynamically linked) and packaged into docker container.
 
-Features demonstrated are: compilation to native image (with static linking) jpa/hibernate, versioned api, jaeger based tracing, prometheus metric and open-api. Helm chart provided will deploy built docker image along with mongodb, prometheus and all-in-one jaeger demonstrating all of the bespoke features. There is also a demo grafana dashboard provided with the helm chart, which will be installed into grafana upon chart deployment.
+Features demonstrated are: compilation to native image (with static linking) jpa/hibernate data repository, versioned api, jaeger based tracing, prometheus metric and open-api. Helm chart provided will deploy built docker image along with mongodb, prometheus and all-in-one jaeger demonstrating all of the bespoke features. There is also a demo grafana dashboard provided with the helm chart, which will be installed into grafana upon chart deployment.
 
 ## Requirements
 
@@ -57,7 +57,16 @@ Once the helper image is build (or you decided you dont want to build it and wna
 ./mvnw clean install -Ddynamic
 ```
 - Build docker image with statically linked native image
+  In order to build statically linked native images, we need extra step first: we need to add support for libmuslc to the oracle's builder image. 
+  To do this run:
+  ```
+  cd builder-image
+  ./build.sh
+  ```
+  This will build the helper image, used later when the project is compiled and packaged into its docker container. 
+  Alternatively, the helper image will be pulled from my docker repository located here **dekstroza/graalvm-ce:20.2.0-r11-libmuslc.
 ```
+## Now run to create statically linked native image and package it into docker container
 ./mvnw clean install -Dstatic
 ```
 
