@@ -48,7 +48,7 @@ Easiest way to run this demo is to install sdkman, and using it install java (gr
   ./build.sh
   ```
   This will build the helper image, used later when the project is compiled and packaged into its docker container. 
-  Alternatively, the helper image will be pulled from my docker repository located here **dekstroza/graalvm-ce:20.2.0-r11-libmuslc.
+  Alternatively, the helper image will be pulled from my docker repository located here **dekstroza/graalvm-ce:20.2.0-r11-libmuslc**
   ```
   ## Now run to create statically linked native image and package it into docker container
   ./mvnw clean install -Dstatic
