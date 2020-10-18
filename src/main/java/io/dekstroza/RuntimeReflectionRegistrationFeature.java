@@ -11,10 +11,6 @@ public class RuntimeReflectionRegistrationFeature implements Feature {
         try {
             RuntimeReflection.register(true, ProbabilisticSamplingStrategy.class.getDeclaredField("samplingRate"));
             RuntimeReflection.register(true, SamplingStrategyResponse.class.getDeclaredField("probabilisticSampling"));
-            RuntimeReflection.register(brave.SpanCustomizer.class);
-            RuntimeReflection.register(brave.http.HttpClientAdapter.class);
-            RuntimeReflection.register(brave.propagation.CurrentTraceContext.class);
-            RuntimeReflection.register(rx.functions.Func1.class);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }

@@ -30,17 +30,17 @@ micronaut:
           - 'X-API-VERSION'
           - 'Accept-Version'
 
+flyway:
+  datasources:
+    default:
+      enabled: true
+
 datasources:
   default:
     url: jdbc:postgresql://localhost:5432/postgresnaut
     driverClassName: org.postgresql.Driver
-    username: postgresnaut_service_user
-    password: '321postgresnaut123'
-
-flyway:
-  datasources:
-    default:
-    enabled: true
+    username: dekstroza
+    password: dekstroza
 
 jackson:
   bean-introspection-module: true
@@ -72,3 +72,4 @@ endpoints:
     sensitive: false
     enabled: true
     details-visible: ANONYMOUS
+

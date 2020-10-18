@@ -49,9 +49,11 @@ spec:
           env:
             - name: DATASOURCES_DEFAULT_URL
               value: jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.postgresqlDatabase }}
-            - name: username
+            - name: DATASOURCES_DEFAULT_DRIVERCLASSNAME
+              value: org.postgresql.Driver
+            - name: DATASOURCES_DEFAULT_USERNAME
               value: {{ .Values.postgresql.postgresqlUsername }}
-            - name: password
+            - name: DATASOURCES_DEFAULT_PASSWORD
               value: {{ .Values.postgresql.postgresqlPassword }}
             - name: JAEGER_AGENT_HOST
               value: {{ .Values.jaeger.agent.host }}

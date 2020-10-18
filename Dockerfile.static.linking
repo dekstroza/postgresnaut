@@ -5,16 +5,24 @@ ADD ${BUILD_DIR}/${JAR_FILE} /home/app/postgresnaut.jar
 WORKDIR /home/app
 
 RUN native-image --no-server \
-    --static \
-    --libc=musl \
-    --enable-http \
-    --enable-https \
-    --no-fallback \
-    --enable-all-security-services \
-    -H:+StackTrace \
-    -H:+JNI \
-    -H:-SpawnIsolates \
-    --class-path /home/app/postgresnaut.jar
+                 --static \
+                 --libc=musl \
+                 --enable-http \
+                 --enable-https \
+                 --no-fallback \
+                 --enable-all-security-services \
+                 --class-path /home/app/postgresnaut.jar \
+                 --features=io.dekstroza.RuntimeReflectionRegistrationFeature \
+                 -H:Class=io.dekstroza.Application \
+                 -H:+AllowVMInspection \
+                 -H:+ReportExceptionStackTraces \
+                 -H:+ReportUnsupportedElementsAtRuntime \
+                 -H:Name=postgresnaut \
+                 -H:+StackTrace \
+                 -H:+JNI \
+                 -H:-SpawnIsolates \
+                 -H:IncludeResources=io/jaegertracing/internal/jaeger.properties
+
 
 FROM scratch
 EXPOSE 8080

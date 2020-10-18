@@ -5,7 +5,21 @@ ADD ${BUILD_DIR}/${JAR_FILE} /home/app/postgresnaut.jar
 WORKDIR /home/app
 RUN gu install native-image && \
     native-image --no-server \
-    --class-path /home/app/postgresnaut.jar
+                 -H:Name=postgresnaut \
+                 -H:Class=io.dekstroza.Application \
+                 -H:+ReportExceptionStackTraces \
+                 -H:+AllowVMInspection \
+                 -H:+ReportUnsupportedElementsAtRuntime \
+                 -H:+StackTrace \
+                 -H:+JNI \
+                 -H:-SpawnIsolates \
+                 -H:IncludeResources=io/jaegertracing/internal/jaeger.properties \
+                 --enable-all-security-services \
+                 --enable-http \
+                 --enable-https \
+                 --no-fallback \
+                 --features=io.dekstroza.RuntimeReflectionRegistrationFeature \
+                 --class-path /home/app/postgresnaut.jar
 
 FROM frolvlad/alpine-glibc
 EXPOSE 8080

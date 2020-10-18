@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <logger name="io.jaegertracing" level="DEBUG"/>
+    <logger name="org.flywaydb" level="DEBUG"/>
     <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
