@@ -17,6 +17,7 @@ Features demonstrated are: compilation to native image (with static linking) jpa
 4. Kubernetes
 5. Helm
 
+**Please be aware that native image compilation is done inside docker container, compilation takes a while and requires resources (CPU,MEM) so adjust your docker resource limits if running on Mac or Windows.
 
 Easiest way to run this demo is to install sdkman, and using it install java (graal, latest) and micronaut (latest). The instructions assume k8s on Docker for Mac/Windows (k8s installed with docker itself). This makes exposing services through LoadBalancer easy, as they are exposed on localhost.
 
