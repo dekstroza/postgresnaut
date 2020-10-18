@@ -2,7 +2,6 @@ package io.dekstroza.rest.controller;
 
 import io.dekstroza.domain.entities.Alarm;
 import io.dekstroza.domain.services.AlarmServiceRepository;
-import io.dekstroza.rest.controller.api.AlarmController;
 import io.micrometer.core.annotation.Timed;
 import io.micronaut.core.version.annotation.Version;
 import io.micronaut.http.HttpHeaders;
@@ -21,7 +20,7 @@ import java.util.Optional;
 import static io.micronaut.http.MediaType.APPLICATION_JSON;
 
 @Controller("/postgresnaut")
-public class AlarmControllerImpl implements AlarmController {
+public class AlarmControllerImpl {
 
     @Inject
     AlarmServiceRepository alarmService;
@@ -65,7 +64,8 @@ public class AlarmControllerImpl implements AlarmController {
     @NewSpan("postgresnaut-service")
     @Version("1")
     public HttpResponse<Alarm> update(@SpanTag("alarm.id") @Body @NotNull Alarm alarm) {
-        return HttpResponse.ok(alarmService.updateAlarm(alarm)).header(HttpHeaders.LOCATION, "/postgresnaut/alarms/" + alarm.getId());
+        alarmService.update(alarm.getId(), alarm.getName(), alarm.getSeverity());
+        return HttpResponse.ok(alarm).header(HttpHeaders.LOCATION, "/postgresnaut/alarms/" + alarm.getId());
     }
 
     /**
@@ -73,7 +73,7 @@ public class AlarmControllerImpl implements AlarmController {
      *
      * @param id
      *            Id of the Alarm
-     * @return    Http response code 200 if the alarm has been deleted or if the alarm doesnt exist
+     * @return Http response code 200 if the alarm has been deleted or if the alarm doesnt exist
      */
     @Timed(value = "method.alarms.api.delete", percentiles = { 0.5, 0.95, 0.99 }, description = "Delete alarm api metric")
     @Delete(value = "/alarms/{id}", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
@@ -109,7 +109,7 @@ public class AlarmControllerImpl implements AlarmController {
     @Timed(value = "method.alarms.api.findBySeverity", percentiles = { 0.5, 0.95, 0.99 }, description = "Find alarm by severity api metric")
     @Version("1")
     public Collection<Alarm> findBySeverity(@NotBlank String severity) {
-        return alarmService.findBySeverity(severity);
+        return alarmService.findAllBySeverity(severity);
     }
 
 }
