@@ -9,19 +9,20 @@
     <parent>
         <groupId>io.micronaut</groupId>
         <artifactId>micronaut-parent</artifactId>
-        <version>2.1.0</version>
+        <version>2.1.1</version>
     </parent>
 
     <properties>
-        <micronaut.version>2.0.1</micronaut.version>
+        <micronaut.version>2.1.1</micronaut.version>
+        <micronaut.data.version>2.0.1</micronaut.data.version>
         <graalvm.version>20.2.0</graalvm.version>
         <junit.version>5.6.2</junit.version>
         <zipkin.brave.version>5.7.0</zipkin.brave.version>
-        <rxjava.version>1.3.8</rxjava.version>
-        <logback.version>1.2.3</logback.version>
         <jaeger.tracing.version>1.0.0</jaeger.tracing.version>
         <micronaut.openapi.version>1.5.2</micronaut.openapi.version>
-        <jdk.version>11</jdk.version>
+        <jdk.version>1.8</jdk.version>
+        <!-- If you are building with JDK 9 or higher, you can uncomment the lines below to set the release version -->
+        <!-- <release.version>8</release.version> -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <exec.mainClass>io.dekstroza.Application</exec.mainClass>
         <docker.repo>dekstroza</docker.repo>
@@ -30,9 +31,9 @@
         <profile>
             <id>dynamic-linking</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
                 <property>
-                    <name>!static</name>
+                    <name>dynamic</name>
                 </property>
             </activation>
             <properties>
@@ -51,8 +52,21 @@
                 <docker.file>Dockerfile.static.linking</docker.file>
             </properties>
         </profile>
+        <profile>
+            <id>no-graalvm</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <docker.file>Dockerfile.nograalvm</docker.file>
+            </properties>
+        </profile>
     </profiles>
     <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
         <repository>
             <id>jcenter.bintray.com</id>
             <url>https://jcenter.bintray.com</url>
@@ -74,10 +88,6 @@
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-http-client</artifactId>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.micronaut.configuration</groupId>
-            <artifactId>micronaut-openapi</artifactId>
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
@@ -106,6 +116,7 @@
         <dependency>
             <groupId>io.micronaut.micrometer</groupId>
             <artifactId>micronaut-micrometer-registry-prometheus</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -113,9 +124,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <scope>compile</scope>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>2.2.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
@@ -145,6 +157,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>io.micronaut.data</groupId>
+            <artifactId>micronaut-data-hibernate-jpa</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.micronaut.sql</groupId>
             <artifactId>micronaut-jdbc-tomcat</artifactId>
             <scope>compile</scope>
@@ -168,11 +184,6 @@
             <groupId>io.zipkin.brave</groupId>
             <artifactId>brave-instrumentation-http</artifactId>
             <version>${zipkin.brave.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.reactivex</groupId>
-            <artifactId>rxjava</artifactId>
-            <version>${rxjava.version}</version>
         </dependency>
         <dependency>
             <groupId>org.graalvm.sdk</groupId>
@@ -229,54 +240,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${exec.mainClass}</mainClass>
-                                </transformer>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <executable>java</executable>
-                    <arguments>
-                        <argument>-noverify</argument>
-                        <argument>-XX:TieredStopAtLevel=1</argument>
-                        <argument>-Dcom.sun.management.jmxremote</argument>
-                        <argument>-classpath</argument>
-                        <classpath/>
-                        <argument>${exec.mainClass}</argument>
-                    </arguments>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>${junit.version}</version>
-                    </dependency>
-                </dependencies>
+                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
@@ -303,24 +270,26 @@
             <plugin>
                 <groupId>io.micronaut.build</groupId>
                 <artifactId>micronaut-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
                 <version>1.0.0</version>
-                <configuration>
-                    <watches>
-                        <watch>
-                            <directory>src/main/resources</directory>
-                            <includes>
-                                <include>**/*.yml</include>
-                                <include>**/*.properties</include>
-                            </includes>
-                            <excludes>
-                                <exclude>test.properties</exclude>
-                            </excludes>
-                        </watch>
-                        <watch>
-                            <directory>src/main/webapp</directory>
-                        </watch>
-                    </watches>
-                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-system-properties</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <property>
+                                    <name>micronaut.openapi.views.spec</name>
+                                    <value>redoc.enabled=true,rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</value>
+                                </property>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -328,13 +297,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
                     <configuration>
-                        <source>${jdk.version}</source>
-                        <target>${jdk.version}</target>
-                        <encoding>UTF-8</encoding>
+                        <!-- Uncomment to enable incremental compilation -->
+                        <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
                         <compilerArgs>
-                            <arg>-parameters</arg>
+                            <arg>-Amicronaut.processing.group=io.dekstroza</arg>
+                            <arg>-Amicronaut.processing.module=postgresnaut</arg>
                         </compilerArgs>
                         <annotationProcessorPaths>
                             <path>
@@ -348,19 +316,14 @@
                                 <version>${micronaut.version}</version>
                             </path>
                             <path>
-                                <groupId>io.micronaut.configuration</groupId>
+                                <groupId>io.micronaut.openapi</groupId>
                                 <artifactId>micronaut-openapi</artifactId>
-                                <version>${micronaut.openapi.version}</version>
-                            </path>
-                            <path>
-                                <groupId>javax.persistence</groupId>
-                                <artifactId>javax.persistence-api</artifactId>
-                                <version>2.2</version>
+                                <version>${micronaut.version}</version>
                             </path>
                             <path>
                                 <groupId>io.micronaut.data</groupId>
                                 <artifactId>micronaut-data-processor</artifactId>
-                                <version>${micronaut.version}</version>
+                                <version>${micronaut.data.version}</version>
                             </path>
                             <path>
                                 <groupId>io.micronaut</groupId>
@@ -391,19 +354,14 @@
                                         <version>${micronaut.version}</version>
                                     </path>
                                     <path>
-                                        <groupId>io.micronaut.configuration</groupId>
+                                        <groupId>io.micronaut.openapi</groupId>
                                         <artifactId>micronaut-openapi</artifactId>
-                                        <version>${micronaut.openapi.version}</version>
-                                    </path>
-                                    <path>
-                                        <groupId>javax.persistence</groupId>
-                                        <artifactId>javax.persistence-api</artifactId>
-                                        <version>2.2</version>
+                                        <version>${micronaut.version}</version>
                                     </path>
                                     <path>
                                         <groupId>io.micronaut.data</groupId>
                                         <artifactId>micronaut-data-processor</artifactId>
-                                        <version>${micronaut.version}</version>
+                                        <version>${micronaut.data.version}</version>
                                     </path>
                                     <path>
                                         <groupId>io.micronaut</groupId>

@@ -1,0 +1,4 @@
+FROM openjdk:14-alpine
+COPY target/postgresnaut-*.jar postgresnaut.jar
+EXPOSE 8080
+CMD ["java", "-Dcom.sun.management.jmxremote", "-Djdk.tls.client.protocols=TLSv1.2", "-Xmx128m", "-jar", "postgresnaut.jar"]

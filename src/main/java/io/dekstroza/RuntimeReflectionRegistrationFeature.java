@@ -14,7 +14,6 @@ public class RuntimeReflectionRegistrationFeature implements Feature {
             RuntimeReflection.register(brave.SpanCustomizer.class);
             RuntimeReflection.register(brave.http.HttpClientAdapter.class);
             RuntimeReflection.register(brave.propagation.CurrentTraceContext.class);
-            RuntimeReflection.register(rx.functions.Func1.class);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }

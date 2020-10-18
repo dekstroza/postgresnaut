@@ -9,7 +9,7 @@ import java.util.Objects;
 @Schema(name = "Alarm", description = "Alarm representation")
 @Introspected
 @Entity
-@Table(name = "alarms", schema = "public")
+@Table(name = "alarms")
 public class Alarm {
 
     @Id
