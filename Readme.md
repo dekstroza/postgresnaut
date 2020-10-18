@@ -7,7 +7,13 @@
 Micronaut and Graal example service using PostgreSQL as the datastore compiled into statically or dynamically linked native image.
 This is a slightly more comprehensive hello world type of a microservice built with micronaut, using postgresql as its data store. It can be compiled as tradidtional java application and packaged into docker container as runnable jar, or as graalvm compiled native binary (both statically and dynamically linked) and packaged into docker container.
 
+## Features
+
 Features demonstrated are: compilation to native image (with static linking) jpa/hibernate data repository, versioned api, jaeger based tracing, prometheus metric and open-api. Helm chart provided will deploy built docker image along with mongodb, prometheus and all-in-one jaeger demonstrating all of the bespoke features. There is also a demo grafana dashboard provided with the helm chart, which will be installed into grafana upon chart deployment.
+
+## Implementations
+
+Beside this implementation which is using hibernate and jpa data repository approach, there is another branch *micronaut-data-repository* with same code and capabilities, just realized with the micronaut's native jdbc data repository. Both branches use same helm charts and offer same functionailty, only difference is the implementation choice for db interaction.
 
 ## Requirements
 
