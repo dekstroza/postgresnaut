@@ -14,8 +14,6 @@ public class RuntimeReflectionRegistrationFeature implements Feature {
             RuntimeReflection.register(brave.SpanCustomizer.class);
             RuntimeReflection.register(brave.http.HttpClientAdapter.class);
             RuntimeReflection.register(brave.propagation.CurrentTraceContext.class);
-            RuntimeReflection.register(io.micronaut.flyway.endpoint.FlywayReport.class);
-            RuntimeReflection.register(org.flywaydb.core.internal.info.MigrationInfoImpl.class);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
