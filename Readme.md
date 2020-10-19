@@ -9,7 +9,7 @@ This is a slightly more comprehensive hello world type of a microservice built w
 
 ## Features
 
-Features demonstrated are: compilation to native image (with static linking) jpa/hibernate data repository, versioned api, jaeger based tracing, prometheus metric and open-api. Helm chart provided will deploy built docker image along with mongodb, prometheus and all-in-one jaeger demonstrating all of the bespoke features. There is also a demo grafana dashboard provided with the helm chart, which will be installed into grafana upon chart deployment.
+Features demonstrated are: compilation to native image (with static linking) jpa/hibernate data repository, versioned api, jaeger based tracing, prometheus metric and open-api. Helm chart provided will deploy built docker image along with postgresql, prometheus and all-in-one jaeger demonstrating all of the bespoke features. There is also a demo grafana dashboard provided with the helm chart, which will be installed into grafana upon chart deployment.
 
 ## Implementations
 
