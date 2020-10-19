@@ -90,7 +90,7 @@ Testing the service from command line using curl:
 
 ```bash
 # Save alarm to the database
-curl -X POST localhost:7777/postgresnaut/alarms -d '{"id": 1,"name": "Second Alarm", "severity": "MEDIUM"}' -H 'Content-Type:application/json'
+curl -X POST localhost:7777/postgresnaut/alarms -d '{"name": "Second Alarm", "severity": "MEDIUM"}' -H 'Content-Type:application/json'
 # Get all alarms
 curl -v localhost:7777/postgresnaut/alarms
 # Health endpoint
@@ -119,9 +119,9 @@ Command to test the latency (get all alarms, or similar for save alarm url):
 # For get all alarms
 curl -w "@curl-format.txt" -o /dev/null -s "http://localhost:7777/postgresnaut/alarms"
 # For save alarm
-curl -w "@curl-format.txt" -o /dev/null -s -X POST localhost:7777/postgresnaut/alarms -d '{"id": 1,"name": "Second Alarm", "severity": "MEDIUM"}' -H 'Content-Type:application/json'
+curl -w "@curl-format.txt" -o /dev/null -s -X POST localhost:7777/postgresnaut/alarms -d '{"name": "Second Alarm", "severity": "MEDIUM"}' -H 'Content-Type:application/json'
 # Save several alarms
-for i in {10..20}; do curl -X POST localhost:7777/postgresnaut/alarms -d "{\"id\": $i,\"name\": \"Second Alarm\", \"severity\": \"MEDIUM\"}" -H 'Content-Type:application/json'; done
+for i in {10..20}; do curl -X POST localhost:7777/postgresnaut/alarms -d "{\"name\": \"Second Alarm\", \"severity\": \"MEDIUM\"}" -H 'Content-Type:application/json'; done
 ```
 
 ## Exposed endpoints
