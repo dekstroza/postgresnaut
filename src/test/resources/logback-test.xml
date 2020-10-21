@@ -6,9 +6,8 @@
         </encoder>
     </appender>
 
-    <logger name="io.dekstroza" level="INFO" />
 
-    <root level="info">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

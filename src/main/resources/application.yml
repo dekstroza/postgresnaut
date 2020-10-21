@@ -33,7 +33,7 @@ datasources:
     url: jdbc:postgresql://${postgresnaut.db.host:localhost}:${postgresnaut.db.port:5432}/${postgresnaut.db.name:postgresnaut}
     driverClassName: org.postgresql.Driver
     username: ${postgresnaut.db.username:dekstroza}
-    password: ${postgresnaut.db.password:dekstroza}
+    password: ${postgresnaut.db.password:321postgresnaut123}
 
 jpa:
   default:

@@ -74,6 +74,7 @@ jaeger:
     port: 14250
 
 postgresql:
+  existingSecret: dbsecret
   persistence:
     enabled: false
   extraEnv:

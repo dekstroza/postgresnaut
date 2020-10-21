@@ -11,12 +11,9 @@ import io.swagger.v3.oas.annotations.info.License;
 @TypeHint(value = { org.HdrHistogram.Histogram.class, org.HdrHistogram.ConcurrentHistogram.class,
            io.jaegertracing.internal.samplers.http.SamplingStrategyResponse.class,
            io.jaegertracing.internal.samplers.http.ProbabilisticSamplingStrategy.class,
-           io.jaegertracing.internal.samplers.http.RateLimitingSamplingStrategy.class,
-           io.jaegertracing.internal.metrics.Metrics.class,
-           io.micronaut.flyway.endpoint.FlywayReport.class,
-           org.flywaydb.core.api.MigrationInfo.class },
-           accessType = { TypeHint.AccessType.ALL_DECLARED_CONSTRUCTORS, TypeHint.AccessType.ALL_DECLARED_FIELDS,
-                      TypeHint.AccessType.ALL_DECLARED_METHODS })
+           io.jaegertracing.internal.samplers.http.RateLimitingSamplingStrategy.class, io.jaegertracing.internal.metrics.Metrics.class,
+           io.micronaut.flyway.endpoint.FlywayReport.class, org.flywaydb.core.api.MigrationInfo.class }, accessType = {
+           TypeHint.AccessType.ALL_DECLARED_CONSTRUCTORS, TypeHint.AccessType.ALL_DECLARED_FIELDS, TypeHint.AccessType.ALL_DECLARED_METHODS })
 public class Application {
     public static void main(String[] args) {
         Micronaut.run(Application.class);

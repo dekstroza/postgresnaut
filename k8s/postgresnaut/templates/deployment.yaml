@@ -52,13 +52,13 @@ spec:
             - name: POSTGRESNAUT_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: postgresnaut
-                  key: username
+                  name: {{ .Values.postgresql.existingSecret }}
+                  key: postgresql-username
             - name: POSTGRESNAUT_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgresnaut
-                  key: password
+                  name: {{ .Values.postgresql.existingSecret }}
+                  key: postgresql-password
             - name: JAEGER_AGENT_HOST
               value: {{ .Values.jaeger.agent.host }}
             - name: JAEGER_AGENT_PORT

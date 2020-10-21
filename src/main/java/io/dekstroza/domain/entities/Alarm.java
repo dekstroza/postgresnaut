@@ -34,6 +34,11 @@ public class Alarm {
         this.name = name;
         this.severity = severity;
     }
+    public Alarm(Integer id, String name, String severity) {
+        this.id = id;
+        this.name = name;
+        this.severity = severity;
+    }
 
     public void setId(Integer id) {
         this.id = id;
